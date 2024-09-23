@@ -1,0 +1,103 @@
+/* header.css */
+
+/* Header Styles */
+.header {
+  background-color: #fff;
+  padding: 10px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.header_container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.header_logo h1 {
+  font-family: "Georgia", serif;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: black;
+  margin-right: 30px;
+}
+
+.header_nav {
+  display: flex;
+  gap: 20px;
+}
+
+.header_nav a {
+  font-size: 1.1rem;
+  text-decoration: none;
+  color: black;
+}
+
+.header_search {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.search_input {
+  width: 100%;
+  max-width: 400px;
+  padding: 8px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
+}
+
+.search_btn {
+  background-color: #004d40;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+.header_actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.header_icon-btn {
+  background-color: #e0e0e0;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.header_lang-btn {
+  background-color: #f0f0f0;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.header_profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Optional hover effects */
+.search_btn:hover {
+  background-color: #00796b; /* Darker green */
+}
+
+.header_icon-btn:hover,
+.header_lang-btn:hover {
+  background-color: #cccccc;
+}

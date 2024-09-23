@@ -1,0 +1,48 @@
+/* footer.css */
+
+.footer {
+  background-color: #003d33;
+  padding: 30px 0;
+  color: white;
+}
+
+.footer_categories {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer_categories li {
+  list-style: none;
+}
+
+.footer_categories li a {
+  color: white;
+  text-decoration: none;
+}
+
+.footer_bottom {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.footer_links {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.footer_links li a {
+  color: white;
+  text-decoration: none;
+}
+
+/* Optional hover effects */
+.footer_categories li a:hover,
+.footer_links li a:hover {
+  text-decoration: underline;
+  color: #ffcc00; /* Accent color */
+}
