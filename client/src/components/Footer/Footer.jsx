@@ -1,53 +1,46 @@
 import React from "react";
-import "./Footer.css";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="footer">
-      {/* Footer Categories */}
-      <ul className="footer_categories">
-        <li>
-          <Link to="posts/categories/Agriculture">Agriculture</Link>
-        </li>
-        <li>
-          <Link to="posts/categories/Business">Business</Link>
-        </li>
-        <li>
-          <Link to="posts/categories/Education">Education</Link>
-        </li>
-        <li>
-          <Link to="posts/categories/Entertainment">Entertainment</Link>
-        </li>
-        <li>
-          <Link to="posts/categories/Art">Art</Link>
-        </li>
-        <li>
-          <Link to="posts/categories/Investment">Investment</Link>
-        </li>
-        <li>
-          <Link to="posts/categories/Uncategorized">Uncategorized</Link>
-        </li>
-        <li>
-          <Link to="posts/categories/Weather">Weather</Link>
-        </li>
-      </ul>
+    <footer className="bg-gray-800 text-gray-400 py-6">
+      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center text-sm">
+        <small className="text-center md:text-left">
+          © 2024 FitNutritionHub. All rights reserved.
+        </small>
 
-      {/* Footer Bottom Text */}
-      <div className="footer_bottom">
-        <small>© 2024 FitNutritionHub. All rights reserved.</small>
-        <ul className="footer_links">
+        <ul className="flex space-x-4 mt-4 md:mt-0">
           <li>
-            <Link to="/about">About us</Link>
+            <Link
+              to="/about"
+              className="hover:text-white transition-colors duration-200"
+            >
+              About us
+            </Link>
           </li>
           <li>
-            <Link to="/help">Help</Link>
+            <Link
+              to="/help"
+              className="hover:text-white transition-colors duration-200"
+            >
+              Help
+            </Link>
           </li>
           <li>
-            <Link to="/faq">FAQs</Link>
+            <Link
+              to="/faq"
+              className="hover:text-white transition-colors duration-200"
+            >
+              FAQs
+            </Link>
           </li>
           <li>
-            <Link to="/terms">Terms</Link>
+            <Link
+              to="/terms"
+              className="hover:text-white transition-colors duration-200"
+            >
+              Terms
+            </Link>
           </li>
         </ul>
       </div>

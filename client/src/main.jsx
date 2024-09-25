@@ -7,6 +7,9 @@ import CreatePost from "./pages/CreatePost/CreatePost";
 import Layout from "./components/Layout/Layout";
 import Home from "./pages/Home/Home";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
+import PostItem from "./components/PostItem/PostItem";
+import Posts from "./pages/Posts/Posts";
+import PostDetail from "./pages/PostDetail/PostDetail";
 
 const router = createBrowserRouter([
   {
@@ -15,7 +18,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <CreatePost /> },
-      // { path: 'posts/:id', element: <PostDetail /> },
+      { path: "posts/", element: <Posts /> },
+      { path: "posts/:id", element: <PostDetail /> },
       // { path: 'register', element: <Register /> },
       // { path: 'login', element: <Login /> },
       // { path: 'profile/:id', element: <UserProfile /> },

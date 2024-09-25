@@ -39,7 +39,7 @@ const isExpert = asynHandler((req, res, next) => {
   if (role !== "expert")
     return res.status(401).json({
       success: false,
-      mes: "require role admin",
+      mes: "require role expert",
     });
   next();
 });

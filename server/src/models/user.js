@@ -72,6 +72,32 @@ var userSchema = new mongoose.Schema(
         type: String,
       },
     ],
+    questions: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Question",
+      },
+    ],
+    posts: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
+    listfavorite: [
+      {
+        item: {
+          type: mongoose.Types.ObjectId, // 'item' là một tham chiếu tới một document khác trong MongoDB, sử dụng ObjectId.
+          required: true, // 'item' là bắt buộc phải có.
+          refPath: "listfavorite.itemType", // 'refPath' là một tham chiếu động. Nó sẽ tham chiếu tới document trong một collection khác, dựa trên giá trị của 'itemType'.
+        },
+        itemType: {
+          type: String, // 'itemType' là một chuỗi.
+          required: true, // 'itemType' là bắt buộc phải có.
+          enum: ["Post", "Question"], // 'itemType' chỉ có thể là 'Post' hoặc 'Question', giới hạn bởi enum.
+        },
+      },
+    ],
 
     // questions
     // listfavorite

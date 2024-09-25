@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import "./CreatePost.css";
 import axios from "axios";
 
 const modules = {
@@ -48,10 +47,10 @@ const CreatePost = () => {
       content,
       tags: tagList,
     };
-
+    console.log(postData);
     try {
       const response = await axios.post(
-        "https://localhost:5000/api/post",
+        "http://localhost:5000/api/v1/post",
         postData,
         {
           headers: {
@@ -59,7 +58,7 @@ const CreatePost = () => {
           },
         }
       );
-
+      console.log(response);
       if (response.data.success) {
         setSuccess("Post created successfully!");
         setTitle("");
@@ -76,41 +75,47 @@ const CreatePost = () => {
   };
 
   return (
-    <div className="create-post-container">
+    <div className=" mx-auto p-4">
+      {/* Title Input */}
       <input
-        className="create-post-title"
+        className="w-full border border-gray-300 p-2 mb-4 rounded"
         type="text"
         placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
+
+      {/* Tags Input */}
       <input
-        className="create-post-tags"
+        className="w-full border border-gray-300 p-2 mb-4 rounded"
         type="text"
         placeholder="Tag your post. Maximum 5 tags. At least 1 tag!"
         value={tags}
         onChange={(e) => setTags(e.target.value)}
       />
+
+      {/* Rich Text Editor */}
       <ReactQuill
         value={content}
         onChange={handleContentChange}
         modules={modules}
         theme="snow"
-        className="create-post-editor"
+        className="mb-4 h-600"
       />
-      <div className="create-post-actions">
-        <div className="publish-dropdown">
-          <button
-            className="publish-button"
-            onClick={handleSubmit}
-            disabled={loading}
-          >
-            {loading ? "Publishing..." : "Publish"}
-          </button>
-        </div>
+
+      <div className="flex justify-end mt-14">
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:bg-blue-300"
+          onClick={handleSubmit}
+          disabled={loading}
+        >
+          {loading ? "Publishing..." : "Publish"}
+        </button>
       </div>
-      {error && <p className="error-message">{error}</p>}
-      {success && <p className="success-message">{success}</p>}
+
+      {/* Error and Success Messages */}
+      {error && <p className="text-red-500 mt-4">{error}</p>}
+      {success && <p className="text-green-500 mt-4">{success}</p>}
     </div>
   );
 };
