@@ -33,10 +33,12 @@ var postSchema = new mongoose.Schema(
       {
         postedBy: { type: mongoose.Types.ObjectId, ref: "User" },
         comment: { type: String },
+        dateCreate: { type: Date, default: Date.now },
         replies: [
           {
             postedBy: { type: mongoose.Types.ObjectId, ref: "User" },
             comment: { type: String },
+            dateCreate: { type: Date, default: Date.now },
           },
         ],
       },

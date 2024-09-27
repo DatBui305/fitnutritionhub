@@ -2,14 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-import CreatePost from "./pages/CreatePost/CreatePost";
-import Layout from "./components/Layout/Layout";
-import Home from "./pages/Home/Home";
-import ErrorPage from "./pages/ErrorPage/ErrorPage";
-import PostItem from "./components/PostItem/PostItem";
-import Posts from "./pages/Posts/Posts";
-import PostDetail from "./pages/PostDetail/PostDetail";
+import Layout from "./layout/layout/Layout";
+import ErrorPage from "./pages/errorPage/ErrorPage";
+import Home from "./pages/home/Home";
+import Posts from "./pages/posts/Posts";
+import PostDetail from "./pages/postDetail/PostDetail";
+import CreatePost from "./pages/createPost/CreatePost";
 
 const router = createBrowserRouter([
   {
@@ -17,8 +15,11 @@ const router = createBrowserRouter([
     element: <Layout />,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <CreatePost /> },
-      { path: "posts/", element: <Posts /> },
+      { index: true, element: <Home /> },
+      {
+        path: "posts/",
+        element: <Posts />,
+      },
       { path: "posts/:id", element: <PostDetail /> },
       // { path: 'register', element: <Register /> },
       // { path: 'login', element: <Login /> },

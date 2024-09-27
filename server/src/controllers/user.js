@@ -77,6 +77,15 @@ const getCurrent = asyncHandler(async (req, res) => {
   });
 });
 
+const getUser = asyncHandler(async (req, res) => {
+  const { uid } = req.params;
+  const user = await User.findById(uid).select("-refreshToken -password -role");
+  return res.status(200).json({
+    success: user ? true : false,
+    rs: user ? user : "user not found",
+  });
+});
+
 const refreshAccessToken = asyncHandler(async (req, res) => {
   //lay token tu cookie
   const cookie = req.cookies;
@@ -124,4 +133,5 @@ module.exports = {
   getCurrent,
   logout,
   refreshAccessToken,
+  getUser,
 };

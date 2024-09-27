@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios"; // Import Axios
-import PostItem from "../../components/PostItem/PostItem";
-import QuestionItem from "../../components/QuestionItem/QuestionItem";
-import NavBar from "../../components/NavBar/NavBar";
+import axios from "axios";
+import PostItem from "../../components/postItem/PostItem";
+import QuestionItem from "../../components/questionItem/QuestionItem";
+import Pagination from "../../components/pagination/Pagination";
+import NavBar from "../../layout/navBar/NavBar";
+import { stripHtml } from "../../helps/stripHtml";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [users, setUsers] = useState([]);
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/v1/post");
+        const response = await axios.get(
+          `http://localhost:5000/api/v1/post?page=${currentPage}`
+        );
         if (response.data.success) {
-          setPosts(response.data.posts); // Set the posts state with fetched data
+          setPosts(response.data.posts);
+          setTotalPages(response.data.totalPages); // Update total pages for pagination
         } else {
           console.error("Failed to fetch posts:", response.data);
         }
@@ -21,15 +28,8 @@ const Posts = () => {
       }
     };
 
-    fetchPosts(); // Call the fetch function on component mount
-  }, []); // Empty dependency array ensures it runs only once
-
-  // Function to strip HTML tags from a string
-  const stripHtml = (html) => {
-    const doc = new DOMParser().parseFromString(html, "text/html");
-    return doc.body.textContent || "";
-  };
-  posts.map((post) => console.log(post._id, post.title));
+    fetchPosts();
+  }, [currentPage]);
 
   return (
     <div>
@@ -41,10 +41,15 @@ const Posts = () => {
               key={post._id}
               id={post._id}
               title={post.title}
-              content={stripHtml(post.content)} // Convert HTML to plain text
+              content={stripHtml(post.content)}
               tags={post.tags}
             />
           ))}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage} // Update the current page when changed
+          />
         </div>
 
         {/* Right Section (Questions) */}
@@ -55,7 +60,6 @@ const Posts = () => {
             </h1>
           </div>
           {/* Render QuestionItem components as needed */}
-          <QuestionItem />
           <QuestionItem />
           <QuestionItem />
           <QuestionItem />

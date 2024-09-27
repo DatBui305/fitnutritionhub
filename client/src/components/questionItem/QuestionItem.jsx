@@ -1,17 +1,13 @@
 import React from "react";
 import { FaHeart, FaBell, FaComment } from "react-icons/fa";
+import UserInfomation from "../userInformation/UserInfomation";
 
 const QuestionItem = () => {
   return (
     <div className="flex items-start bg-white rounded-lg shadow-lg w-[25rem] p-4 space-x-4">
       <div className="flex-1">
         {/* User Information */}
-        <div className="flex items-center space-x-2">
-          <h3 className="text-green-600 text-sm font-semibold">
-            Kathleen Brown
-          </h3>
-          <p className="text-gray-500 text-sm">about 4 hours ago</p>
-        </div>
+        <UserInfomation name="Kathleen Brown" timecreate="about 4 hours ago" />
 
         {/* Post Title */}
         <h2 className="text-sm text-gray-800">

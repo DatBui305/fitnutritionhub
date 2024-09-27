@@ -4,7 +4,7 @@ import { FaSearch, FaBell, FaTh } from "react-icons/fa";
 
 const Header = () => {
   return (
-    <header className="bg-[#D9D9D9]">
+    <header className="bg-[#D9D9D9] fixed top-0 left-0 w-full z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link to="/" className="text-2xl font-bold  font-lobster">
           FitNutritionHub
