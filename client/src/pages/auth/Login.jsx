@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { FaUser, FaLock } from "react-icons/fa";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const { setUser, setAccessToken } = useContext(AuthContext); // Sử dụng useContext để lấy setUser và setAccessToken
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -21,15 +23,25 @@ const Login = () => {
         }
       );
 
-      // Handle successful login
-      console.log("Login Successful", response.data);
+      // Lưu thông tin người dùng và token sau khi đăng nhập thành công
+      console.log(response.data.userData);
+      console.log(response.data.accessToken);
+
+      setUser(response.data.userData);
+      setAccessToken(response.data.accessToken);
+
+      // Lưu thông tin vào localStorage
+      localStorage.setItem("user", JSON.stringify(response.data.userData));
+      localStorage.setItem("accessToken", response.data.accessToken);
+
+      // Chuyển hướng đến trang chủ hoặc trang khác
+      window.location.href = "/posts";
     } catch (error) {
-      // Handle login failure
+      // Xử lý lỗi đăng nhập
       setErrorMessage("Login failed. Please check your credentials.");
       console.error(error);
     }
   };
-
   return (
     <div className="flex bg-white w-screen items-center justify-center h-screen">
       <div className="bg-white shadow-md rounded-lg w-[25rem] p-6">

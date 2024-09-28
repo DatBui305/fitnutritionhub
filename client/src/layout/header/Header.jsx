@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { FaSearch, FaBell, FaTh } from "react-icons/fa";
+import { AuthContext } from "../../context/AuthContext"; // Import AuthContext
+import UserAvatar from "../../components/userInformation/UserAvatar"; // Import UserAvatar
 
 const Header = () => {
+  const { user } = useContext(AuthContext);
+
   return (
     <header className="bg-[#D9D9D9] fixed top-0 left-0 w-full z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
@@ -46,11 +50,13 @@ const Header = () => {
           <button className="border px-3 py-1 rounded text-sm font-semibold">
             ENG
           </button>
-          <img
-            src="https://st.quantrimang.com/photos/image/2021/02/04/Hinh-nen-Quoc-Ky-VN-6.jpg"
-            alt="Profile"
-            className="w-10 h-10 rounded-full object-cover"
-          />
+          {user ? (
+            <UserAvatar src={user.avatar} />
+          ) : (
+            <Link to="/login" className="text-gray-600 hover:text-gray-800">
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </header>

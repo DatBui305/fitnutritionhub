@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import UserAvatar from "../../components/userInformation/UserAvatar";
@@ -9,6 +9,7 @@ import TableOfContents from "../../components/tableOfContent/TableOfContent";
 import CommentInput from "../../features/comment/CommentInput";
 import ViewAndComment from "../../features/favorite/ViewAndComment";
 import LikeDislikeFavorite from "../../features/favorite/LikeAndDislike";
+import { AuthContext } from "../../context/AuthContext";
 
 const PostDetail = () => {
   const { id } = useParams();
@@ -16,6 +17,8 @@ const PostDetail = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [user, setUser] = useState([]);
+  const [comments, setComments] = useState([]);
+  const { accessToken } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -25,6 +28,12 @@ const PostDetail = () => {
         );
         console.log("Fetched post response:", response);
         setPost(response.data.rs);
+        console.log("Fetched comments:", response.data.comments);
+        setComments(
+          Array.isArray(response.data.rs.comments)
+            ? response.data.rs.comments
+            : []
+        );
         setIsLoading(false);
       } catch (error) {
         setError(error.response ? error.response.data.message : error.message);
@@ -34,6 +43,11 @@ const PostDetail = () => {
 
     fetchPost();
   }, [id]);
+
+  const addComment = (newComments) => {
+    // setComments([]);
+    setComments(newComments);
+  };
 
   // Fetch user data based on post data
   useEffect(() => {
@@ -82,7 +96,11 @@ const PostDetail = () => {
                   name={user.firstname}
                   timecreate={formatTimeCreate(post.createdAt)}
                 />
-                <ViewAndComment views={post.views} comments={post.comments} />
+                <ViewAndComment
+                  views={post.views}
+                  comments={post.comments}
+                  addComment={addComment}
+                />
               </div>
             </div>
             <h3 className="text-lg border p-4 font-semibold mb-1">
@@ -104,20 +122,25 @@ const PostDetail = () => {
 
             <div className="pb-5">
               <h1 className="py-2 font-bold text-lg">Comment</h1>
-              <CommentInput />
+              <CommentInput
+                id={id}
+                accessToken={accessToken}
+                addComment={addComment}
+              />
             </div>
 
             <div className="space-y-4">
-              {post?.comments.map((comment, index) => (
-                <CommentItem
-                  key={index}
-                  user={user}
-                  _id={comment._id}
-                  comment={comment.comment}
-                  replies={comment.replies}
-                  dateCreate={formatTimeCreate(comment.dateCreate)}
-                />
-              ))}
+              {Array.isArray(comments) &&
+                comments?.map((comment, index) => (
+                  <CommentItem
+                    key={index}
+                    user={user}
+                    _id={comment._id}
+                    comment={comment.comment}
+                    replies={comment.replies}
+                    dateCreate={formatTimeCreate(comment.dateCreate)}
+                  />
+                ))}
             </div>
           </div>
 
