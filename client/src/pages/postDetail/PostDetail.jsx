@@ -70,7 +70,7 @@ const PostDetail = () => {
         <div className="flex">
           {/* Table of Contents bên trái */}
           <div className="w-1/6 pt-25 sticky space-y-8 pl-10">
-            <LikeDislikeFavorite />
+            <LikeDislikeFavorite likes={post.likes} dislikes={post.dislikes} />
           </div>
 
           {/* Nội dung chính */}
@@ -82,7 +82,7 @@ const PostDetail = () => {
                   name={user.firstname}
                   timecreate={formatTimeCreate(post.createdAt)}
                 />
-                <ViewAndComment />
+                <ViewAndComment views={post.views} comments={post.comments} />
               </div>
             </div>
             <h3 className="text-lg border p-4 font-semibold mb-1">

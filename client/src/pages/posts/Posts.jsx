@@ -32,10 +32,10 @@ const Posts = () => {
   }, [currentPage]);
 
   return (
-    <div>
+    <div className="pt-16">
       <NavBar />
-      <div className="flex space-x-1">
-        <div className="space-y-3 pl-48">
+      <div className="flex space-x-1 ">
+        <div className="space-y-3 pl-48 pb-8">
           {posts.map((post) => (
             <PostItem
               key={post._id}
@@ -43,6 +43,12 @@ const Posts = () => {
               title={post.title}
               content={stripHtml(post.content)}
               tags={post.tags}
+              views={post.views}
+              likes={post.likes}
+              dislikes={post.dislikes}
+              comments={post.comments}
+              idAuthor={post.idAuthor}
+              createdAt={post.createdAt}
             />
           ))}
           <Pagination
