@@ -136,6 +136,7 @@ const PostDetail = () => {
                     key={index}
                     user={user}
                     _id={comment._id}
+                    pid={id}
                     comment={comment.comment}
                     replies={comment.replies}
                     dateCreate={formatTimeCreate(comment.dateCreate)}
