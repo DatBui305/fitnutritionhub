@@ -8,6 +8,7 @@ import Home from "./pages/home/Home";
 import Posts from "./pages/posts/Posts";
 import PostDetail from "./pages/postDetail/PostDetail";
 import CreatePost from "./pages/createPost/CreatePost";
+import Login from "./pages/auth/Login";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
       },
       { path: "posts/:id", element: <PostDetail /> },
       // { path: 'register', element: <Register /> },
-      // { path: 'login', element: <Login /> },
+      // { path: "login", element: <Login /> },
       // { path: 'profile/:id', element: <UserProfile /> },
       // { path: 'authors', element: <Authors /> },
       { path: "create", element: <CreatePost /> },
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       // { path: 'posts/categories/:category', element: <CategoryPosts /> },
       // { path: 'logout', element: <Logout /> },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login />, // Không sử dụng layout cho trang đăng nhập
   },
 ]);
 

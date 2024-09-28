@@ -6,7 +6,6 @@ router.post("/register", controller.register);
 router.post("/login", controller.login);
 router.get("/current", verifyAccessToken, controller.getCurrent);
 router.get("/:uid", controller.getUser);
-
 router.post("/refreshtoken", controller.refreshAccessToken);
 router.get("/logout", controller.logout);
 
