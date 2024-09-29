@@ -153,7 +153,7 @@ const getPost = asyncHandler(async (req, res) => {
   const { pid } = req.params;
   const post = await Post.findByIdAndUpdate(
     pid,
-    { $inc: { numberViews: 1 } },
+    { $inc: { views: 1 } },
     { new: true }
   )
     .populate("likes", "firstname lastname")

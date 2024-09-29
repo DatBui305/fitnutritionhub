@@ -84,7 +84,11 @@ const PostDetail = () => {
         <div className="flex">
           {/* Table of Contents bên trái */}
           <div className="w-1/6 pt-25 sticky space-y-8 pl-10">
-            <LikeDislikeFavorite likes={post.likes} dislikes={post.dislikes} />
+            <LikeDislikeFavorite
+              likes={post.likes}
+              dislikes={post.dislikes}
+              pid={id}
+            />
           </div>
           {/* Nội dung chính */}
           <div className="w-3/4 pr-4">
@@ -144,7 +148,7 @@ const PostDetail = () => {
                 ))}
             </div>
           </div>
-          j{/* Table of Contents bên phải */}
+          {/* Table of Contents bên phải */}
           <div className="w-1/4">
             <TableOfContents htmlContent={post.content} />
           </div>

@@ -37,3 +37,8 @@ router.delete(
 );
 
 module.exports = router;
+
+// post: create
+// put: update
+// get: view
+// delete: delete
