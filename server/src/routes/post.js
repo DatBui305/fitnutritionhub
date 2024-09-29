@@ -3,6 +3,7 @@ const controller = require("../controllers/post");
 const { verifyAccessToken, isAdmin } = require("../middlewares/verifyToken");
 
 // Post Routes
+router.post("/",controller.createPost);
 router.post("/", controller.createPost);
 router.get("/", controller.getPosts);
 router.get("/:pid", controller.getPost);
@@ -38,7 +39,7 @@ router.delete(
 
 module.exports = router;
 
-// post: create
-// put: update
-// get: view
-// delete: delete
+// post: create // tạo
+// put: update /// cập nhật
+// get: view// lấy dữ liệu
+// delete: delete// xóa

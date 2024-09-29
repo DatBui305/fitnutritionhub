@@ -1,3 +1,4 @@
+const question = require("../models/question");
 const Question = require("../models/question");
 const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
@@ -24,7 +25,7 @@ const createQuestion = asyncHandler(async (req, res) => {
   }
   return res.json({
     success: response ? true : false,
-    createQuestion: response ? response : "cannot create new post",
+    createQuestion: response ? response : "cannot create new question",
   });
 });
 
@@ -36,7 +37,7 @@ const updateQuestion = asyncHandler(async (req, res) => {
   });
   return res.json({
     success: response ? true : false,
-    updateQuestion: response ? response : "cannot update new Post",
+    updateQuestion: response ? response : "cannot update new Question",
   });
 });
 
@@ -44,7 +45,7 @@ const getQuestions = asyncHandler(async (req, res) => {
   const response = await Question.find();
   return res.json({
     success: response ? true : false,
-    questions: response ? response : "cannot get Posts",
+    questions: response ? response : "cannot get Questions",
   });
 });
 
@@ -52,7 +53,7 @@ const getQuestion = asyncHandler(async (req, res) => {
   const { qid } = req.params;
   const response = await Question.findByIdAndUpdate(
     qid,
-    { $inc: { numberViews: 1 } },
+    { $inc: { views: 1 } },
     { new: true }
   );
   return res.json({
@@ -65,7 +66,7 @@ const deleteQuestion = asyncHandler(async (req, res) => {
   const { qid } = req.params;
   const { _id } = req.user;
   const question = await Question.findById(qid);
-  if (!question) throw new Error("Post not found");
+  if (!question) throw new Error("Question not found");
   const response = await Question.findByIdAndDelete(qid);
 
   if (response) {
@@ -99,10 +100,10 @@ const commentQuestion = asyncHandler(async (req, res) => {
   const question = await Question.findById(qid);
   if (!question) throw new Error("Question not found!");
 
-  if (comment.trim().length === 0 || comment.length > 500) {
+  if (comment.trim().length === 0) {
     return res
       .status(400)
-      .json({ success: false, message: "Comment cannot be empty or too long" });
+      .json({ success: false, message: "Comment cannot be empty" });
   }
   const response = await Question.findByIdAndUpdate(
     qid,
@@ -121,15 +122,15 @@ const repliesQuestion = asyncHandler(async (req, res) => {
   const { qid, cid } = req.params;
   const { comment } = req.body;
 
-  if (!qid || !cid || !_id || !comment) throw new Error("Missing in put");
+  if (!qid || !cid || !_id || !comment) throw new Error("Missing input");
 
-  const question = await Question.findById(pid);
+  const question = await Question.findById(qid);
   if (!question) throw new Error("Question not found");
 
-  if (comment.trim().length === 0 || comment.length > 500) {
+  if (comment.trim().length === 0 ) {
     return res
       .status(400)
-      .json({ success: false, message: "Comment cannot be empty or too long" });
+      .json({ success: false, message: "Comment cannot be empty " });
   }
   // Find the comment
   const commentIndex = question.comments.findIndex(
@@ -359,6 +360,95 @@ const addQuestionInFavorites = asyncHandler(async (req, res) => {
   });
 });
 
+/**
+ *
+ * khi nguoi dung lai mot bai blog thi phai
+ * 1. check xem nguoi do co dislike hay khong => bo diskike
+ * 2. chekc truoc do co like hay ko => bo like
+ *
+ */
+const likeQuestion = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { qid } = req.params;
+  if (!qid) throw new Error("Missing inputs");
+  const question = await Question.findById(qid);
+  const alreadyDisliked = question?.dislikes?.find((el) => el.toString() === _id);
+  if (alreadyDisliked) {
+    const response = await Question.findByIdAndUpdate(
+      qid,
+      { $pull: { dislikes: _id } },
+      { new: true }
+    );
+    return res.json({
+      success: response ? true : false,
+      rs: response,
+    });
+  }
+  const isLiked = question?.likes?.find((el) => el.toString() === _id);
+  if (isLiked) {
+    const response = await Question.findByIdAndUpdate(
+      qid,
+      { $pull: { likes: _id } },
+      { new: true }
+    );
+    return res.json({
+      success: response ? true : false,
+      rs: response,
+    });
+  } else {
+    const response = await Question.findByIdAndUpdate(
+      qid,
+      { $push: { likes: _id } },
+      { new: true }
+    );
+    return res.json({
+      success: response ? true : false,
+      rs: response,
+    });
+  }
+});
+
+const dislikeQuestion = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { qid } = req.params;
+  if (!qid) throw new Error("Missing inputs");
+  const question = await Question.findById(qid);
+  const alreadyLiked = question?.likes?.find((el) => el.toString() === _id);
+  if (alreadyLiked) {
+    const response = await Question.findByIdAndUpdate(
+      qid,
+      { $pull: { likes: _id } },
+      { new: true }
+    );
+    return res.json({
+      success: response ? true : false,
+      rs: response,
+    });
+  }
+  const isDisliked = question?.dislikes?.find((el) => el.toString() === _id);
+  if (isDisliked) {
+    const response = await Question.findByIdAndUpdate(
+      qid,
+      { $pull: { dislikes: _id } },
+      { new: true }
+    );
+    return res.json({
+      success: response ? true : false,
+      rs: response,
+    });
+  } else {
+    const response = await Question.findByIdAndUpdate(
+      qid,
+      { $push: { dislikes: _id } },
+      { new: true }
+    );
+    return res.json({
+      success: response ? true : false,
+      rs: response,
+    });
+  }
+});
+
 //check create post
 //check delete post
 //check addpostInFavorite
@@ -375,4 +465,6 @@ module.exports = {
   updateComment,
   updateReply,
   addQuestionInFavorites,
+  likeQuestion,
+  dislikeQuestion
 };

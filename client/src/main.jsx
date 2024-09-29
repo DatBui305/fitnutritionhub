@@ -10,6 +10,7 @@ import PostDetail from "./pages/postDetail/PostDetail";
 import CreatePost from "./pages/createPost/CreatePost";
 import Login from "./pages/auth/Login";
 import { AuthProvider } from "./context/AuthContext"; // Import AuthProvider
+import QuestionDetail from "./pages/questionDetail/QuestionDetail";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
         element: <Posts />,
       },
       { path: "posts/:id", element: <PostDetail /> },
+      { path: "questions/:id", element: <QuestionDetail /> },
       // { path: 'register', element: <Register /> },
       // { path: "login", element: <Login /> },
       // { path: 'profile/:id', element: <UserProfile /> },

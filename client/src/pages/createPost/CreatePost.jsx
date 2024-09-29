@@ -78,7 +78,7 @@ const CreatePost = () => {
     <div className=" mx-auto p-4">
       {/* Title Input */}
       <input
-        className="w-full border border-gray-300 p-2 mb-4 rounded"
+        className="w-full border border-gray-300 p-2 pt-20 mb-4 rounded"
         type="text"
         placeholder="Title"
         value={title}
