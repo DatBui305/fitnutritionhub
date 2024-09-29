@@ -86,7 +86,6 @@ const PostDetail = () => {
           <div className="w-1/6 pt-25 sticky space-y-8 pl-10">
             <LikeDislikeFavorite likes={post.likes} dislikes={post.dislikes} />
           </div>
-
           {/* Nội dung chính */}
           <div className="w-3/4 pr-4">
             <div className="flex items-center mb-4">
@@ -137,6 +136,7 @@ const PostDetail = () => {
                     user={user}
                     _id={comment._id}
                     pid={id}
+                    postedBy={comment.postedBy}
                     comment={comment.comment}
                     replies={comment.replies}
                     dateCreate={formatTimeCreate(comment.dateCreate)}
@@ -144,8 +144,7 @@ const PostDetail = () => {
                 ))}
             </div>
           </div>
-
-          {/* Table of Contents bên phải */}
+          j{/* Table of Contents bên phải */}
           <div className="w-1/4">
             <TableOfContents htmlContent={post.content} />
           </div>

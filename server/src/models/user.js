@@ -98,7 +98,10 @@ var userSchema = new mongoose.Schema(
         },
       },
     ],
-
+    isBlocked: {
+      type: Boolean,
+      default: false,
+    },
     // questions
     // listfavorite
     // posts

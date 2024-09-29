@@ -6,6 +6,7 @@ import UserInfomation from "../userInformation/UserInfomation";
 import Tags from "../tags/Tags";
 import axios from "axios";
 import { formatTimeCreate } from "../../helps/dateformat";
+import countCommentsAndReplies from "../../helps/countCommentsAndReplies";
 
 const PostItem = ({
   id,
@@ -27,7 +28,6 @@ const PostItem = ({
   const likeCount = Array.isArray(likes) ? likes.length : 0;
   const dislikeCount = Array.isArray(dislikes) ? dislikes.length : 0;
   const total = likeCount - dislikeCount;
-  const commentsCount = Array.isArray(comments) ? comments.length : 0;
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -88,7 +88,9 @@ const PostItem = ({
             </div>
             <div className="flex items-center space-x-1">
               <FaComment />
-              <span className="text-sm">{commentsCount}</span>
+              <span className="text-sm">
+                {countCommentsAndReplies(comments)}
+              </span>
             </div>
           </div>
         </div>

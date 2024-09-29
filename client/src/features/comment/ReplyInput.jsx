@@ -16,6 +16,7 @@ const ReplyInput = ({ pid, accessToken, addReply, cid, changeInput }) => {
     if (!comment.trim()) return;
 
     try {
+      console.log(cid);
       const response = await axios.put(
         `http://localhost:5000/api/v1/post/comment/${pid}/reply/${cid}`,
         { comment },
@@ -46,6 +47,8 @@ const ReplyInput = ({ pid, accessToken, addReply, cid, changeInput }) => {
       }
     } catch (error) {
       console.error("Failed to submit reply:", error);
+      console.error("Request config:", error.config);
+      console.error("Response data:", error.response?.data);
     }
   };
 
