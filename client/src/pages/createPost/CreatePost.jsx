@@ -75,33 +75,32 @@ const CreatePost = () => {
   };
 
   return (
-    <div className=" mx-auto p-4">
-      {/* Title Input */}
-      <input
-        className="w-full border border-gray-300 p-2 mb-4 rounded"
-        type="text"
-        placeholder="Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+    <div className=" mx-auto p-4 pt-28 flex flex-col">
+      <div className="items-center pb-10">
+        <input
+          className="w-full border border-gray-300 p-2 mb-4 rounded"
+          type="text"
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <input
+          className="w-full border border-gray-300 p-2 mb-4 rounded"
+          type="text"
+          placeholder="Tag your post. Maximum 5 tags. At least 1 tag!"
+          value={tags}
+          onChange={(e) => setTags(e.target.value)}
+        />
+        <ReactQuill
+          value={content}
+          onChange={handleContentChange}
+          modules={modules}
+          theme="snow"
+          className="mb-4 h-[15rem]"
+        />
+      </div>
 
-      {/* Tags Input */}
-      <input
-        className="w-full border border-gray-300 p-2 mb-4 rounded"
-        type="text"
-        placeholder="Tag your post. Maximum 5 tags. At least 1 tag!"
-        value={tags}
-        onChange={(e) => setTags(e.target.value)}
-      />
-
-      {/* Rich Text Editor */}
-      <ReactQuill
-        value={content}
-        onChange={handleContentChange}
-        modules={modules}
-        theme="snow"
-        className="mb-4 h-600"
-      />
+      {/* <div className="w-full h-[50rem] pt-20 bg-slate-500"></div> */}
 
       <div className="flex justify-end mt-14">
         <button
@@ -112,8 +111,6 @@ const CreatePost = () => {
           {loading ? "Publishing..." : "Publish"}
         </button>
       </div>
-
-      {/* Error and Success Messages */}
       {error && <p className="text-red-500 mt-4">{error}</p>}
       {success && <p className="text-green-500 mt-4">{success}</p>}
     </div>

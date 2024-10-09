@@ -11,6 +11,11 @@ var postSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "User",
     },
+    slug: {
+      type: String,
+      required: true,
+      lowercase: true,
+    },
     content: {
       type: String,
       required: true,
@@ -58,6 +63,18 @@ var postSchema = new mongoose.Schema(
     tags: [
       {
         type: String,
+      },
+    ],
+    recipes: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Recipe",
+      },
+    ],
+    excercises: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Excercise",
       },
     ],
   },

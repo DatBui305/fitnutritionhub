@@ -5,6 +5,8 @@ import QuestionItem from "../../components/questionItem/QuestionItem";
 import Pagination from "../../components/pagination/Pagination";
 import NavBar from "../../layout/navBar/NavBar";
 import { stripHtml } from "../../helps/stripHtml";
+import { FaBell, FaComment, FaHeart } from "react-icons/fa";
+import UserInfomation from "../../components/userInformation/UserInfomation";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -32,7 +34,7 @@ const Posts = () => {
   }, [currentPage]);
 
   return (
-    <div className="pt-16">
+    <div className="pt-20">
       <NavBar />
       <div className="flex space-x-1 ">
         <div className="space-y-3 pl-48 pb-8">
@@ -60,18 +62,51 @@ const Posts = () => {
 
         {/* Right Section (Questions) */}
         <div className="space-y-3">
-          <div>
-            <h1 className="font-bold text-green-600 text-lg border-b-2 border-gray-300 pb-1">
-              Newest Questions
-            </h1>
+          <div className="w-[28rem] h-screen bg-inherit">
+            <div>
+              <h1 className="font-bold text-green-600 text-lg border-b-2 border-gray-300 pb-1">
+                NEWEST QUESTIONS
+              </h1>
+              <div className="flex items-start bg-white border-b border-gray-300 w-[25rem] p-4 space-x-4">
+                <div className="flex-1">
+                  <UserInfomation
+                    name="Kathleen Brown"
+                    timecreate="about 4 hours ago"
+                  />
+                  <h2 className="text-sm text-gray-800">
+                    Ethical and Environmental Impacts of AI in the Energy
+                    Sector...
+                  </h2>
+
+                  {/* Post Tags */}
+                  <div className="flex space-x-2 my-2">
+                    <span className="bg-gray-200 text-gray-700 px-2 py-1 text-sm rounded">
+                      Cooking
+                    </span>
+                    <span className="bg-gray-200 text-gray-700 px-2 py-1 text-sm rounded">
+                      Asia
+                    </span>
+                  </div>
+
+                  {/* Interaction Icons */}
+                  <div className="flex space-x-4 mt-2 text-gray-500">
+                    <div className="flex items-center space-x-1">
+                      <FaHeart />
+                      <span className="text-sm">10</span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <FaBell />
+                      <span className="text-sm">2</span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <FaComment />
+                      <span className="text-sm">2</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          {/* Render QuestionItem components as needed */}
-          <QuestionItem />
-          <QuestionItem />
-          <QuestionItem />
-          <QuestionItem />
-          <QuestionItem />
-          <QuestionItem />
         </div>
       </div>
     </div>

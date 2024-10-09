@@ -1,24 +1,33 @@
 const Post = require("../models/post");
 const User = require("../models/user");
+const Question = require("../models/question");
 const asyncHandler = require("express-async-handler");
+const slugify = require("slugify");
 
 const createPost = asyncHandler(async (req, res) => {
   const { title, content, state, tags } = req.body;
-  // const { _id } = req.user;
+  const { _id } = req.user;
   console.log(title, content);
-  // if (!_id || !title || !content) throw new Error("missing input");
-  if (!title || !content || !tags) throw new Error("missing input");
-  const response = await Post.create({ title, content, state, tags });
-  // const response = await Post.create({ title, content, state, idAuthor: _id });
+  if (!_id || !title || !content || !tags) throw new Error("missing input");
+  const slug = slugify(req.body.title);
+  // if (!title || !content || !tags) throw new Error("missing input");
+  // const response = await Post.create({ title, content, state, tags });
+  const response = await Post.create({
+    title,
+    content,
+    state,
+    idAuthor: _id,
+    slug,
+    tags,
+  });
 
-  // if (response) {
-  //   // Update the user to add the post ID to the posts array
-  //   await User.findByIdAndUpdate(
-  //     _id,
-  //     { $push: { posts: response._id } },
-  //     { new: true }
-  //   );
-  // }
+  if (response) {
+    await User.findByIdAndUpdate(
+      _id,
+      { $push: { posts: response._id } },
+      { new: true }
+    );
+  }
   return res.json({
     success: response ? true : false,
     createPost: response ? response : "cannot create new post",
@@ -445,6 +454,36 @@ const addPostInFavorites = asyncHandler(async (req, res) => {
   });
 });
 
+const search = asyncHandler(async (req, res) => {
+  const { title } = req.body;
+  const slug = slugify(title);
+  if (!slug) throw new Error("Missing input");
+  // Search for posts with matching slugs
+  const posts = await Post.find({
+    slug: { $regex: slug, $options: "i" },
+  });
+
+  // Search for questions with matching slugs
+  const questions = await Question.find({
+    slug: { $regex: slug, $options: "i" },
+  });
+
+  // If neither posts nor questions are found, return an error message
+  if (!posts.length && !questions.length) {
+    return res.status(404).json({
+      success: false,
+      message: "Cannot find any matching posts or questions",
+    });
+  }
+
+  // Return successful response with both posts and questions
+  return res.status(200).json({
+    success: true,
+    posts,
+    questions,
+  });
+});
+
 //check create post
 //check delete post
 //check addpostInFavorite
@@ -463,4 +502,5 @@ module.exports = {
   updateComment,
   updateReply,
   addPostInFavorites,
+  search,
 };

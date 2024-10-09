@@ -12,6 +12,10 @@ var userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    gender: {
+      type: String,
+      defaul: "male",
+    },
     email: {
       type: String,
       required: true,

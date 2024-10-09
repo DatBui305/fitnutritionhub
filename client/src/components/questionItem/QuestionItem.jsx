@@ -4,12 +4,9 @@ import UserInfomation from "../userInformation/UserInfomation";
 
 const QuestionItem = () => {
   return (
-    <div className="flex items-start bg-white rounded-lg shadow-lg w-[25rem] p-4 space-x-4">
+    <div className="flex items-start bg-white border-b border-gray-300 w-[25rem] p-4 space-x-4">
       <div className="flex-1">
-        {/* User Information */}
         <UserInfomation name="Kathleen Brown" timecreate="about 4 hours ago" />
-
-        {/* Post Title */}
         <h2 className="text-sm text-gray-800">
           Ethical and Environmental Impacts of AI in the Energy Sector...
         </h2>

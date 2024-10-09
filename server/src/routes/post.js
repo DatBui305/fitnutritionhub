@@ -3,7 +3,7 @@ const controller = require("../controllers/post");
 const { verifyAccessToken, isAdmin } = require("../middlewares/verifyToken");
 
 // Post Routes
-router.post("/", controller.createPost);
+router.post("/", verifyAccessToken, controller.createPost);
 router.get("/", controller.getPosts);
 router.get("/:pid", controller.getPost);
 
@@ -35,6 +35,7 @@ router.delete(
   verifyAccessToken,
   controller.deleteReplies
 );
+router.get("/", controller.search);
 
 module.exports = router;
 

@@ -7,6 +7,11 @@ var questionSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    slug: {
+      type: String,
+      required: true,
+      lowercase: true,
+    },
     idAuthor: {
       type: mongoose.Types.ObjectId,
       ref: "User",

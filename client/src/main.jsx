@@ -10,6 +10,12 @@ import PostDetail from "./pages/postDetail/PostDetail";
 import CreatePost from "./pages/createPost/CreatePost";
 import Login from "./pages/auth/Login";
 import { AuthProvider } from "./context/AuthContext"; // Import AuthProvider
+import Personal from "./pages/user/Personal";
+import Email from "./pages/user/Email";
+import Contact from "./pages/user/Contact";
+import Password from "./pages/user/Password";
+import UserManager from "./pages/manager/UserManager";
+import Test from "./components/Test";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +45,12 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />, // Không sử dụng layout cho trang đăng nhập
   },
+  { path: "user/personal", element: <Personal /> },
+  { path: "user/email", element: <Email /> },
+  { path: "user/contact", element: <Contact /> },
+  { path: "user/password", element: <Password /> },
+  { path: "user/manager", element: <UserManager /> },
+  { path: "test", element: <Test /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

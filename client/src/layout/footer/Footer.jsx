@@ -3,12 +3,11 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-gray-400 py-6">
-      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center text-sm">
+    <footer className="bg-gray-800 h-[10rem] text-gray-400 py-6">
+      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center text-lg">
         <small className="text-center md:text-left">
           © 2024 FitNutritionHub. All rights reserved.
         </small>
-
         <ul className="flex space-x-4 mt-4 md:mt-0">
           <li>
             <Link
