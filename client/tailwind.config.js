@@ -8,6 +8,7 @@ export default {
       },
       fontFamily: {
         lobster: ["Lobster", "cursive"],
+        wixmadefor: ['"Wix Madefor Text"', "sans-serif"],
       },
     },
   },

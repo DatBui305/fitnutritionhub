@@ -8,8 +8,8 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
 const register = asyncHandler(async (req, res) => {
-  const { email, password, firstname, lastname } = req.body;
-  if (!email || !password || !lastname || !firstname) {
+  const { email, password, firstname, phone } = req.body;
+  if (!email || !password || !phone || !firstname) {
     return res.status(400).json({
       success: false,
       mes: "Missing inputs",
@@ -127,6 +127,48 @@ const logout = asyncHandler(async (req, res) => {
   });
 });
 
+const updateUserPersonal = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { firstname, lastname, gender, dob } = req.body;
+  if (!_id) {
+    return res.status(400).json({
+      success: false,
+      mes: "User ID is required",
+    });
+  }
+  if (!firstname && !lastname && !gender && !dob) {
+    return res.status(400).json({
+      success: false,
+      mes: "No fields to update",
+    });
+  }
+
+  // Tạo đối tượng cập nhật
+  const updateFields = {};
+  if (firstname) updateFields.firstname = firstname;
+  if (lastname) updateFields.lastname = lastname;
+  if (gender) updateFields.gender = gender;
+  if (dob) updateFields.dob = dob;
+
+  // Cập nhật thông tin người dùng
+  const updatedUser = await User.findByIdAndUpdate(_id, updateFields, {
+    new: true,
+  }).select("-password -refreshToken -role");
+
+  if (!updatedUser) {
+    return res.status(404).json({
+      success: false,
+      mes: "User not found",
+    });
+  }
+
+  return res.status(200).json({
+    success: true,
+    mes: "User updated successfully",
+    user: updatedUser,
+  });
+});
+
 module.exports = {
   register,
   login,
@@ -134,4 +176,5 @@ module.exports = {
   logout,
   refreshAccessToken,
   getUser,
+  updateUserPersonal,
 };

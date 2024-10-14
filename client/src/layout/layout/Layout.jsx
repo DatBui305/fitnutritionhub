@@ -1,15 +1,15 @@
 import React from "react";
 
 import { Outlet } from "react-router-dom";
-import Header from "../header/Header";
 import Footer from "../footer/Footer";
+import HeaderNew from "../header/HeaderNew";
 
 const Layout = () => {
   return (
     <>
-      <Header />
+      <HeaderNew />
       <Outlet />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

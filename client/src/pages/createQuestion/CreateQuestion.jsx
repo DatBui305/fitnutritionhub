@@ -1,20 +1,20 @@
-import React, { useContext } from "react";
-import PersonalItem from "../../components/userInformation/PersonalItem";
-import { AuthContext } from "../../context/AuthContext";
+import React from "react";
 import SideBar from "../../layout/sidebar/SideBar";
 import SideBarRight from "../../layout/sidebar/SideBarRight";
+import NavBarNew from "../../layout/navBar/NavBarNew";
+import InputQuestion from "../../components/input/InputQuestion";
 
-const Personal = () => {
+const CreateQuestion = () => {
   return (
     <div className="w-full bg-[#F2F7FB] flex flex-row justify-between">
       <SideBar />
       <div>
         {/* <NavBarNew /> */}
-        <PersonalItem />
+        <InputQuestion />
       </div>
       <SideBarRight />
     </div>
   );
 };
 
-export default Personal;
+export default CreateQuestion;

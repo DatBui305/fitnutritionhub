@@ -10,7 +10,6 @@ var userSchema = new mongoose.Schema(
     },
     lastname: {
       type: String,
-      required: true,
     },
     gender: {
       type: String,

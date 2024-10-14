@@ -1,16 +1,19 @@
 const Question = require("../models/question");
 const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
+const slugify = require("slugify");
 
 const createQuestion = asyncHandler(async (req, res) => {
-  const { title, content, state } = req.body;
+  const { title, content, tags } = req.body;
   const { _id } = req.user;
   console.log(title, content, _id);
   if (!_id || !title || !content) throw new Error("missing input");
+  const slug = slugify(req.body.title);
   const response = await Question.create({
     title,
     content,
-    state,
+    slug,
+    tags,
     idAuthor: _id,
   });
 

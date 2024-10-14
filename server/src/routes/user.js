@@ -8,6 +8,7 @@ router.get("/current", verifyAccessToken, controller.getCurrent);
 router.get("/:uid", controller.getUser);
 router.post("/refreshtoken", controller.refreshAccessToken);
 router.get("/logout", controller.logout);
+router.put("/personal/", verifyAccessToken, controller.updateUserPersonal);
 
 module.exports = router;
 

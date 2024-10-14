@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import PostItem from "../../components/postItem/PostItem";
-import QuestionItem from "../../components/questionItem/QuestionItem";
 import Pagination from "../../components/pagination/Pagination";
 import NavBar from "../../layout/navBar/NavBar";
 import { stripHtml } from "../../helps/stripHtml";

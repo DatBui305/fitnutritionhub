@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import Header from "../../layout/header/Header";
 import UserAvatarLarge from "../../components/userInformation/UserAvatarLarge";
 import { AuthContext } from "../../context/AuthContext";
 

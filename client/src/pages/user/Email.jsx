@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import Header from "../../layout/header/Header";
 import { AuthContext } from "../../context/AuthContext";
 import Sidebar from "../../components/sidebar/Sidebar";
 
