@@ -105,6 +105,10 @@ var userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    idAttributes: {
+      type: mongoose.Types.ObjectId,
+      ref: "Attributes",
+    },
     // questions
     // listfavorite
     // posts
