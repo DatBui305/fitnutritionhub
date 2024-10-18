@@ -31,7 +31,9 @@ const Posts = () => {
 
     fetchPosts();
   }, [currentPage]);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [1]);
   return (
     <div className="pt-20">
       <NavBar />

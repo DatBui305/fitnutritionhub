@@ -1,13 +1,12 @@
 import React, { useContext } from "react";
 import PersonalItem from "../../components/userInformation/PersonalItem";
-import { AuthContext } from "../../context/AuthContext";
-import SideBar from "../../layout/sidebar/SideBar";
 import SideBarRight from "../../layout/sidebar/SideBarRight";
+import SideBarUser from "../../layout/sidebar/SideBarUser";
 
 const Personal = () => {
   return (
     <div className="w-full bg-[#F2F7FB] flex flex-row justify-between">
-      <SideBar />
+      <SideBarUser />
       <div>
         {/* <NavBarNew /> */}
         <PersonalItem />

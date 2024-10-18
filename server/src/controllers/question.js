@@ -44,10 +44,27 @@ const updateQuestion = asyncHandler(async (req, res) => {
 });
 
 const getQuestions = asyncHandler(async (req, res) => {
-  const response = await Question.find();
+  const page = parseInt(req.query.page, 10) || 1;
+  const limit = parseInt(req.query.limit, 10) || 10;
+  const tags = req.query.tags;
+
+  const query = tags
+    ? {
+        tags: { $in: tags.split(",") },
+      }
+    : {};
+  const response = await Question.find(query)
+    .skip((page - 1) * limit)
+    .limit(limit)
+    .sort({ createAt: -1 });
+  const total = await Question.countDocuments(query);
+  const totalPage = Math.ceil(total / limit);
   return res.json({
     success: response ? true : false,
     questions: response ? response : "cannot get Posts",
+    page,
+    totalPage,
+    totalQuestion: total,
   });
 });
 
@@ -361,6 +378,87 @@ const addQuestionInFavorites = asyncHandler(async (req, res) => {
     createQuestion: response ? response : "cannot add to favorites",
   });
 });
+const likeQuestion = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { qid } = req.params;
+  if (!qid) throw new Error("Missing inputs");
+  const question = await Question.findById(qid);
+  const isLiked = question?.likes?.find((el) => el.toString() === _id);
+  if (isLiked) {
+    const response = await Question.findByIdAndUpdate(
+      qid,
+      { $pull: { likes: _id } },
+      { new: true }
+    );
+    return res.json({
+      success: response ? true : false,
+      rs: response,
+    });
+  } else {
+    const response = await Question.findByIdAndUpdate(
+      qid,
+      { $push: { likes: _id } },
+      { new: true }
+    );
+    return res.json({
+      success: response ? true : false,
+      rs: response,
+    });
+  }
+});
+
+const likeCommentQuestion = asyncHandler(async (req, res) => {
+  const { _id } = req.user; // User ID từ authentication
+  const { qid, cid } = req.params; // Lấy Question ID và Comment ID từ request params
+
+  // Kiểm tra đầu vào
+  if (!qid || !cid || !_id) {
+    return res.status(400).json({ success: false, message: "Missing input" });
+  }
+
+  // Tìm câu hỏi theo ID
+  const question = await Question.findById(qid);
+  if (!question) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Question not found" });
+  }
+
+  // Tìm bình luận theo ID
+  const commentIndex = question.comments.findIndex(
+    (c) => c._id.toString() === cid
+  );
+  if (commentIndex === -1) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Comment not found" });
+  }
+
+  // Kiểm tra nếu người dùng đã like bình luận chưa
+  const likeIndex = question.comments[commentIndex].likes.findIndex(
+    (like) => like.toString() === _id
+  );
+
+  if (likeIndex !== -1) {
+    // Nếu người dùng đã like, thì xóa like
+    question.comments[commentIndex].likes.splice(likeIndex, 1);
+    await question.save();
+    return res.status(200).json({
+      success: true,
+      message: "Like removed successfully",
+      likesCount: question.comments[commentIndex].likes.length,
+    });
+  } else {
+    // Nếu người dùng chưa like, thì thêm like
+    question.comments[commentIndex].likes.push(_id);
+    await question.save();
+    return res.status(200).json({
+      success: true,
+      message: "Comment liked successfully",
+      likesCount: question.comments[commentIndex].likes.length,
+    });
+  }
+});
 
 //check create post
 //check delete post
@@ -378,4 +476,6 @@ module.exports = {
   updateComment,
   updateReply,
   addQuestionInFavorites,
+  likeQuestion,
+  likeCommentQuestion,
 };

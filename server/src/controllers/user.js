@@ -1,5 +1,7 @@
 const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
+const bcrypt = require("bcrypt");
+
 const {
   generateAccessToken,
   generateRefreshToken,
@@ -142,15 +144,12 @@ const updateUserPersonal = asyncHandler(async (req, res) => {
       mes: "No fields to update",
     });
   }
-
-  // Tạo đối tượng cập nhật
   const updateFields = {};
   if (firstname) updateFields.firstname = firstname;
   if (lastname) updateFields.lastname = lastname;
   if (gender) updateFields.gender = gender;
   if (dob) updateFields.dob = dob;
 
-  // Cập nhật thông tin người dùng
   const updatedUser = await User.findByIdAndUpdate(_id, updateFields, {
     new: true,
   }).select("-password -refreshToken -role");
@@ -169,6 +168,46 @@ const updateUserPersonal = asyncHandler(async (req, res) => {
   });
 });
 
+const updateUserContact = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { phone, address } = req.body;
+  if (!_id) throw new Error("Require login");
+  if (!phone && !address) throw new Error("Missing input");
+
+  const response = await User.findByIdAndUpdate(
+    _id,
+    { phone, address },
+    { new: true }
+  ).select("-password -refreshToken -role");
+
+  return res.status(200).json({
+    message: response ? true : false,
+    rs: response ? response : "Failed to updated user information",
+  });
+});
+
+const updateUserPassword = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { oldPassword, newPassword } = req.body;
+
+  if (!_id) throw new Error("Require login");
+  if (!oldPassword && !newPassword) throw new Error("Missing input");
+
+  const user = await User.findById(_id);
+  if (!user) throw new Error("User not found");
+
+  const ismatch = await bcrypt.compare(oldPassword, user.password);
+  if (!ismatch) throw new Error("Password not match");
+
+  user.password = newPassword;
+  await user.save();
+
+  return res.status(200).json({
+    success: true,
+    rs: "update password successful",
+  });
+});
+
 module.exports = {
   register,
   login,
@@ -177,4 +216,6 @@ module.exports = {
   refreshAccessToken,
   getUser,
   updateUserPersonal,
+  updateUserContact,
+  updateUserPassword,
 };

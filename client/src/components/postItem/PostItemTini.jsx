@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { formatTimeCreate } from "../../helps/dateformat";
 import axios from "axios";
-import { Link } from "react-router-dom";
 
-const QuestionItemTini = ({ _id, title, idAuthor, createdAt }) => {
+const PostItemTini = ({ _id, title, idAuthor, createdAt }) => {
   const truncateText = (text, maxLength) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
   };
@@ -35,7 +34,7 @@ const QuestionItemTini = ({ _id, title, idAuthor, createdAt }) => {
   }, [idAuthor]);
 
   return (
-    <Link to={`/question/questiondetail/${_id}`}>
+    <div>
       <div className="px-10 pb-3">
         <h1 className="font-wixmadefor text-[#6374AE] font-bold text-2xl">
           {author?.firstname || "Unknown Author"}
@@ -50,8 +49,8 @@ const QuestionItemTini = ({ _id, title, idAuthor, createdAt }) => {
         </p>
         <hr className="bg-[#D3E2F2] rounded-[5px] h-[3px] w-[330px] " />
       </div>
-    </Link>
+    </div>
   );
 };
 
-export default QuestionItemTini;
+export default PostItemTini;

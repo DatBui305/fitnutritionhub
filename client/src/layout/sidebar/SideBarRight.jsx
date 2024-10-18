@@ -33,7 +33,7 @@ const SideBarRight = () => {
   }, []);
 
   return (
-    <div className="w-full bg-[#F2F7FB] h-screen">
+    <div className="w-full bg-[#F2F7FB] py-5">
       <h1 className="px-10 text-3xl font-wixmadefor text-[#6374AE] font-bold">
         Newest <br /> questions
       </h1>

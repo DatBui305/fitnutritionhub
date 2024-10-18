@@ -25,7 +25,7 @@ const HeaderNew = () => {
             Posts
           </button>
         </Link>
-        <Link to="/questions">
+        <Link to="/question/questions">
           <button className="bg-[#6374AE] h-[60px] w-full p-3 items-center justify-center text-3xl text-[#F2F7FB] font-bold border-[3px] rounded-[10px] px-4 py-2">
             Questions
           </button>
@@ -126,13 +126,11 @@ const HeaderNew = () => {
               className="w-[60px] h-[60px] border-[3px] border-[#9CB6DD] rounded-[10px]"
             />
           ) : (
-            <Link to="/user/personal">
-              <img
-                src="https://cellphones.com.vn/sforum/wp-content/uploads/2023/11/avatar-dep-60.jpg"
-                alt=""
-                className="w-[60px] h-[60px] border-[3px] border-[#9CB6DD] rounded-[10px]"
-              />
-            </Link>
+            <img
+              src="https://cellphones.com.vn/sforum/wp-content/uploads/2023/11/avatar-dep-60.jpg"
+              alt=""
+              className="w-[60px] h-[60px] border-[3px] border-[#9CB6DD] rounded-[10px]"
+            />
           )}
         </div>
       </div>

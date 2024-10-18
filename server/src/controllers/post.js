@@ -45,18 +45,18 @@ const updatePost = asyncHandler(async (req, res) => {
 });
 
 const getPosts = asyncHandler(async (req, res) => {
-  const page = parseInt(req.query.page, 10) || 1; // Get page from query, default is 1
-  const limit = parseInt(req.query.limit, 10) || 10; // Limit per page, default is 10
-  const tags = req.query.tags; // Get tags from query
+  const page = parseInt(req.query.page, 10) || 1;
+  const limit = parseInt(req.query.limit, 10) || 10;
+  const tags = req.query.tags;
 
-  const query = tags ? { tags: { $in: tags.split(",") } } : {}; // Filter posts by tags if provided
+  const query = tags ? { tags: { $in: tags.split(",") } } : {};
 
   const response = await Post.find(query)
     .skip((page - 1) * limit)
     .limit(limit)
-    .sort({ createdAt: -1 }); // Sort by creation date
+    .sort({ createdAt: -1 });
 
-  const total = await Post.countDocuments(query); // Count the total documents for pagination
+  const total = await Post.countDocuments(query);
   const totalPages = Math.ceil(total / limit);
 
   return res.json({

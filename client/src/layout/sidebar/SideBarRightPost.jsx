@@ -1,8 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import PostItemTini from "../../components/postItem/PostItemTini";
 
 const SideBarRightPost = () => {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/v1/post`);
+        if (response.data.success) {
+          const sortedPosts = response.data.posts.sort((a, b) => {
+            return new Date(b.createdAt) - new Date(a.createdAt);
+          });
+          // Lấy 3 câu hỏi mới nhất
+          const latestPosts = sortedPosts.slice(0, 3);
+          setPosts(latestPosts);
+          console.log(latestPosts);
+        } else {
+          console.error("Failed to fetch posts:", response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        setErrorMessage("Failed to load posts. Please try again later.");
+      }
+    };
+
+    fetchPosts();
+  }, []);
   return (
-    <div className="w-full bg-[#F2F7FB] h-screen">
+    <div className="w-full bg-[#F2F7FB] py-5">
       <h1 className="px-10 text-3xl font-wixmadefor text-[#6374AE] font-bold">
         Related <br />
         posts
@@ -12,42 +40,15 @@ const SideBarRightPost = () => {
       </div>
 
       <div>
-        <div className="px-10 pb-3">
-          <h1 className="font-wixmadefor text-[#6374AE] font-bold text-2xl">
-            Kathleen Brown
-          </h1>
-          <h3 className="font-wixmadefor text-[#839DD1] font-normal">
-            about 4 hours ago
-          </h3>
-          <p className="font-wixmadefor text-lg text-[#262C40] font-semibold pb-3">
-            Ethical and Environmental Impacts of AI in the Energy Sector
-          </p>
-          <hr className="bg-[#D3E2F2] rounded-[5px] h-[3px] w-[330px] " />
-        </div>
-        <div className="px-10 pb-3">
-          <h1 className="font-wixmadefor text-[#6374AE] font-bold text-2xl">
-            Kathleen Brown
-          </h1>
-          <h3 className="font-wixmadefor text-[#839DD1] font-normal">
-            about 4 hours ago
-          </h3>
-          <p className="font-wixmadefor text-lg text-[#262C40] font-semibold pb-3">
-            Ethical and Environmental Impacts of AI in the Energy Sector
-          </p>
-          <hr className="bg-[#D3E2F2] rounded-[5px] h-[3px] w-[330px] " />
-        </div>
-        <div className="px-10 pb-3">
-          <h1 className="font-wixmadefor text-[#6374AE] font-bold text-2xl">
-            Kathleen Brown
-          </h1>
-          <h3 className="font-wixmadefor text-[#839DD1] font-normal">
-            about 4 hours ago
-          </h3>
-          <p className="font-wixmadefor text-lg text-[#262C40] font-semibold pb-3">
-            Ethical and Environmental Impacts of AI in the Energy Sector
-          </p>
-          <hr className="bg-[#D3E2F2] rounded-[5px] h-[3px] w-[330px] " />
-        </div>
+        {posts.map((post) => (
+          <PostItemTini
+            _id={post._id}
+            title={post.title}
+            idAuthor={post.idAuthor}
+            createdAt={post.createdAt}
+            key={post._id}
+          />
+        ))}
       </div>
     </div>
   );

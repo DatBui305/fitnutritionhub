@@ -29,6 +29,12 @@ var questionSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    likes: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     images: { type: String },
     comments: [
       {
@@ -38,6 +44,13 @@ var questionSchema = new mongoose.Schema(
           {
             postedBy: { type: mongoose.Types.ObjectId, ref: "User" },
             comment: { type: String },
+          },
+        ],
+        createdAt: { type: Date, default: Date.now },
+        likes: [
+          {
+            type: mongoose.Types.ObjectId,
+            ref: "User",
           },
         ],
       },

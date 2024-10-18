@@ -1,23 +1,58 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { formatTimeCreate } from "../../helps/dateformat";
 
-const CommentItemNew = () => {
+const CommentItemNew = ({ comment }) => {
+  console.log(":::" + comment);
+  const [author, setAuthor] = useState(null);
+
+  useEffect(() => {
+    const fetchAuthor = async () => {
+      if (!comment.postedBy) {
+        console.error("postedBy is undefined or null");
+        return;
+      }
+
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/v1/user/${comment.postedBy}`
+        );
+        if (response.data.success) {
+          setAuthor(response.data.rs);
+        } else {
+          console.error("Failed to fetch author:", response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching author:", error);
+      }
+    };
+
+    fetchAuthor();
+  }, [comment.postedBy]);
+
   return (
-    <div className="flex flex-row w-3/5 justify-between bg-[#FAF8F6]">
+    <div className="flex flex-row w-full justify-between bg-[#F2F7FB] py-3">
       <img
-        src="https://cellphones.com.vn/sforum/wp-content/uploads/2023/11/avatar-dep-60.jpg?gidzl=dqPU3a2_4qkMM5OCIgaLIPHGK0rKh15FZ5LM1WVw54FQ059N3AqI5zDN1m9S_HL7WWq21Z3koNHmGxmRJm"
+        src={
+          author?.avatar
+            ? author.avatar
+            : "https://cellphones.com.vn/sforum/wp-content/uploads/2023/11/avatar-dep-60.jpg"
+        }
         alt="avatar"
         className=" w-[80px] h-[80px] border-[3px] border-[#6374AE] rounded-[15px]"
       />
       <div className="px-3">
-        <h1 className="text-[#6374AE] text-xl font-bold font-wixmadefor">
-          Kathleen Brown
+        <h1 className="text-[rgb(99,116,174)] text-xl font-bold font-wixmadefor">
+          {author?.firstname || "Unknown Author"}
         </h1>
         <h2 className="text-[#839DD1] font-medium font-wixmadefor">
-          about 4 hours ago
+          {comment.createdAt
+            ? formatTimeCreate(comment.createdAt)
+            : "about ? hours ago"}
         </h2>
-        <p className="text-[#262C40] font-bold text-xl font-wixmadefor">
-          That Baked Salmon recipe is amazing! I made it last night, and the
-          garlic herb butter added so much flavor. My whole family loved it!
+        <p className="text-[#262C40] w-[850px] font-bold text-xl font-wixmadefor">
+          {comment.comment ||
+            "That Baked Salmon recipe is amazing! I made it last night, and the garlic herb butter added so much flavor. My whole family loved it!"}
         </p>
       </div>
       <div className="items-center flex">
